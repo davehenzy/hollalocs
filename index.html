@@ -315,13 +315,228 @@
   .footer-info { font-size: 0.85rem; color: rgba(255,255,255,0.4); }
   .footer-info a { color: var(--gold); text-decoration: none; }
 
-  /* ANIMATIONS */
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-content > * { animation: fadeUp 0.7s ease both; }
-  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
-  .hero-content > *:nth-child(2) { animation-delay: 0.25s; }
-  .hero-content > *:nth-child(3) { animation-delay: 0.4s; }
-  .hero-content > *:nth-child(4) { animation-delay: 0.55s; }
+  /* ═══════════════════════════════════════
+     ANIMATIONS
+  ═══════════════════════════════════════ */
+
+  /* Page load hero stagger */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes slideRight {
+    from { opacity: 0; transform: translateX(-40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideLeft {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33%       { transform: translateY(-18px) rotate(2deg); }
+    66%       { transform: translateY(-8px) rotate(-1deg); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50%       { transform: translateY(-22px) rotate(-2deg); }
+  }
+  @keyframes pulse-ring {
+    0%   { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes gold-glow {
+    0%, 100% { box-shadow: 0 0 10px rgba(201,168,76,0.3); }
+    50%       { box-shadow: 0 0 30px rgba(201,168,76,0.7), 0 0 60px rgba(201,168,76,0.3); }
+  }
+  @keyframes particle-rise {
+    0%   { transform: translateY(0) scale(1); opacity: 0.6; }
+    100% { transform: translateY(-120px) scale(0); opacity: 0; }
+  }
+  @keyframes wave {
+    0%,100% { transform: scaleY(1); }
+    50%      { transform: scaleY(0.5); }
+  }
+
+  /* Hero stagger */
+  .hero-content > * { animation: fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both; }
+  .hero-content > *:nth-child(1) { animation-delay: 0.15s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.3s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.45s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.6s; }
+  .hero-stats { animation: fadeIn 1.2s ease both; animation-delay: 1s; }
+
+  /* Gold shimmer on logo */
+  .nav-logo {
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 40%, var(--gold) 60%, var(--gold-light) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+  }
+  .nav-logo span { -webkit-text-fill-color: var(--white); background: none; }
+
+  /* Floating orbs in hero */
+  .hero-orb {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-orb-1 { width: 500px; height: 500px; top: -10%; right: -8%; animation: float 8s ease-in-out infinite; }
+  .hero-orb-2 { width: 280px; height: 280px; bottom: 5%; left: 55%; animation: float2 11s ease-in-out infinite; }
+  .hero-orb-3 { width: 150px; height: 150px; top: 30%; right: 25%; animation: float 6s ease-in-out infinite reverse; }
+
+  /* Particle dots */
+  .particle {
+    position: absolute; border-radius: 50%;
+    background: var(--gold); pointer-events: none;
+    animation: particle-rise linear infinite;
+  }
+
+  /* Pulse ring on CTA button */
+  .btn-primary { position: relative; overflow: visible; }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold); border-radius: inherit;
+    animation: pulse-ring 2s cubic-bezier(0,0,0.2,1) infinite;
+    pointer-events: none;
+  }
+
+  /* Spinning decorative ring */
+  .spin-ring {
+    position: absolute; top: -30px; right: -30px;
+    width: 120px; height: 120px; border-radius: 50%;
+    border: 2px dashed rgba(201,168,76,0.3);
+    animation: spin-slow 12s linear infinite;
+    pointer-events: none;
+  }
+
+  /* Scroll reveal — hidden by default */
+  .reveal {
+    opacity: 0; transform: translateY(50px);
+    transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal.from-left  { transform: translateX(-50px); }
+  .reveal.from-right { transform: translateX(50px); }
+  .reveal.scale-up   { transform: scale(0.88); }
+  .reveal.visible    { opacity: 1; transform: none; }
+
+  /* Stagger children */
+  .stagger-children > * {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .stagger-children.visible > *:nth-child(1) { transition-delay: 0.05s; }
+  .stagger-children.visible > *:nth-child(2) { transition-delay: 0.15s; }
+  .stagger-children.visible > *:nth-child(3) { transition-delay: 0.25s; }
+  .stagger-children.visible > *:nth-child(4) { transition-delay: 0.35s; }
+  .stagger-children.visible > *:nth-child(5) { transition-delay: 0.45s; }
+  .stagger-children.visible > *:nth-child(6) { transition-delay: 0.55s; }
+  .stagger-children.visible > * { opacity: 1; transform: none; }
+
+  /* Animated gold underline on h2 */
+  .underline-anim { position: relative; display: inline-block; }
+  .underline-anim::after {
+    content: ''; position: absolute; left: 0; bottom: -4px;
+    height: 3px; width: 0; background: var(--gold);
+    transition: width 0.8s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal.visible .underline-anim::after,
+  .underline-anim.go::after { width: 100%; }
+
+  /* Service card enhanced hover */
+  .service-card {
+    transition: background 0.35s, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s !important;
+  }
+  .service-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 20px 40px rgba(11,31,58,0.15) !important;
+  }
+
+  /* Testimonial card hover lift */
+  .testi-card {
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), border-color 0.35s, box-shadow 0.35s !important;
+  }
+  .testi-card:hover {
+    transform: translateY(-8px) !important;
+    border-color: rgba(201,168,76,0.5) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+  }
+
+  /* Avatar pulse */
+  .testi-avatar { animation: gold-glow 3s ease-in-out infinite; }
+
+  /* Animated counter */
+  .stat-num { transition: all 0.3s; }
+
+  /* Marquee ticker */
+  .ticker-wrap {
+    background: var(--gold); overflow: hidden; padding: 0.6rem 0;
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-flex; gap: 0;
+    animation: ticker 20s linear infinite;
+  }
+  .ticker-item {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem; font-weight: 700; color: var(--navy);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0 2.5rem;
+  }
+  .ticker-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--navy); opacity: 0.4; }
+
+  /* About image animated border */
+  .about-img-box { transition: box-shadow 0.4s; }
+  .about-img-box:hover { box-shadow: 0 0 0 4px var(--gold), 0 30px 60px rgba(11,31,58,0.2); }
+
+  /* Booking section glow */
+  .booking-inner { transition: none; }
+  .whatsapp-btn { animation: gold-glow 2.5s ease-in-out infinite; }
+
+  /* Wave bars (decorative) */
+  .wave-bars {
+    display: flex; align-items: center; gap: 3px;
+    height: 20px; margin-bottom: 1rem;
+  }
+  .wave-bar {
+    width: 3px; background: var(--gold); border-radius: 2px;
+    animation: wave 1.2s ease-in-out infinite;
+  }
+  .wave-bar:nth-child(1) { height: 8px;  animation-delay: 0s; }
+  .wave-bar:nth-child(2) { height: 16px; animation-delay: 0.1s; }
+  .wave-bar:nth-child(3) { height: 12px; animation-delay: 0.2s; }
+  .wave-bar:nth-child(4) { height: 20px; animation-delay: 0.3s; }
+  .wave-bar:nth-child(5) { height: 14px; animation-delay: 0.4s; }
+  .wave-bar:nth-child(6) { height: 8px;  animation-delay: 0.5s; }
+
+  /* Cursor glow (desktop only) */
+  #cursor-glow {
+    position: fixed; width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+  }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
@@ -334,6 +549,9 @@
 </style>
 </head>
 <body>
+
+<!-- CURSOR GLOW -->
+<div id="cursor-glow"></div>
 
 <!-- DEMO BANNER -->
 <div class="demo-banner" id="demoBanner">
@@ -366,7 +584,14 @@
 
 <!-- HERO -->
 <section class="hero">
+  <!-- Floating orbs -->
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <!-- Particles injected by JS -->
+  <div id="particles"></div>
   <div class="hero-content">
+    <div class="spin-ring"></div>
     <div class="hero-badge">📍 Lagos Island, Nigeria</div>
     <h1>Where <em>Hair</em> Meets<br/>Artistry</h1>
     <p>Lagos Island's premier locs & beauty salon. Expert hands, premium care, and a space designed to make you feel like royalty.</p>
@@ -393,12 +618,30 @@
 
 <!-- SERVICES -->
 <section class="services" id="services">
-  <div class="services-header">
+  <!-- Gold marquee ticker -->
+  <div class="ticker-wrap" style="margin: -90px -5% 60px; width: calc(100% + 10%);">
+    <div class="ticker-track">
+      <span class="ticker-item"><span class="ticker-dot"></span>Locs Installation</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Retwist & Maintenance</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Hair Treatment</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Manicure & Pedicure</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Braiding & Styling</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Makeup Artistry</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Locs Installation</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Retwist & Maintenance</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Hair Treatment</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Manicure & Pedicure</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Braiding & Styling</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Makeup Artistry</span>
+    </div>
+  </div>
+  <div class="services-header reveal">
+    <div class="wave-bars"><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div></div>
     <div class="section-tag">What We Offer</div>
-    <h2>Our Signature Services</h2>
+    <h2>Our Signature <span class="underline-anim">Services</span></h2>
     <p class="section-subtitle">From locs to luxury treatments — we handle your hair with the care it deserves.</p>
   </div>
-  <div class="services-grid">
+  <div class="services-grid stagger-children">
     <div class="service-card">
       <div class="service-icon">🔱</div>
       <div class="service-title">Locs Installation</div>
@@ -441,16 +684,16 @@
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="about-inner">
-    <div class="about-image-wrap">
+    <div class="about-image-wrap reveal from-left">
       <div class="about-img-box">H L</div>
       <div class="about-accent">
         <div class="about-accent-num">★5</div>
         <div class="about-accent-text">Google Rated</div>
       </div>
     </div>
-    <div class="about-content">
+    <div class="about-content reveal from-right">
       <div class="section-tag">Our Story</div>
-      <h2>Lagos Island's Hidden Gem for Natural Hair</h2>
+      <h2>Lagos Island's Hidden Gem for <span class="underline-anim">Natural Hair</span></h2>
       <p>Hollalocs was born from a deep passion for celebrating natural African hair in all its forms. Located on Lewis Street, Lagos Island, we've built a reputation for professional, caring, and affordable beauty services.</p>
       <p>Our team of trained stylists specialize in locs, natural hair care, and full beauty treatments — all in a clean, welcoming space that feels like home.</p>
       <ul class="about-features">
@@ -467,12 +710,12 @@
 
 <!-- TESTIMONIALS -->
 <section class="testimonials" id="reviews">
-  <div class="testimonials-header">
+  <div class="testimonials-header reveal">
     <div class="section-tag">Client Love</div>
     <h2>What Our Clients <em>Say</em></h2>
     <p class="section-subtitle">Real feedback from real people who trust us with their hair.</p>
   </div>
-  <div class="testi-grid">
+  <div class="testi-grid stagger-children">
     <div class="testi-card">
       <div class="testi-stars">★★★★★</div>
       <p class="testi-text">"So professional in what he does. Customer care is super — I felt completely comfortable from start to finish. My locs have never looked better!"</p>
@@ -511,7 +754,7 @@
 
 <!-- BOOKING CTA -->
 <section class="booking" id="book">
-  <div class="booking-inner">
+  <div class="booking-inner reveal scale-up">
     <div class="booking-text">
       <h2>Ready to Book?</h2>
       <p>Send us a WhatsApp message to schedule your appointment. We reply fast and slots fill up quickly — don't wait!</p>
@@ -536,6 +779,129 @@
   </div>
   <div class="footer-info">© 2025 Hollalocs Beauty Salon. All rights reserved.</div>
 </footer>
+
+<script>
+// ── CURSOR GLOW ──────────────────────────────────────────
+const glow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top  = e.clientY + 'px';
+});
+
+// ── FLOATING PARTICLES IN HERO ───────────────────────────
+const particleContainer = document.getElementById('particles');
+function createParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 4 + 2;
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random() * 100}%;
+    bottom:${Math.random() * 30}%;
+    opacity:${Math.random() * 0.5 + 0.1};
+    animation-duration:${Math.random() * 4 + 3}s;
+    animation-delay:${Math.random() * 4}s;
+  `;
+  particleContainer.appendChild(p);
+  setTimeout(() => p.remove(), 8000);
+}
+setInterval(createParticle, 600);
+
+// ── SCROLL REVEAL ────────────────────────────────────────
+const revealEls = document.querySelectorAll('.reveal, .stagger-children');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Also trigger underline animations inside
+      entry.target.querySelectorAll('.underline-anim').forEach(el => el.classList.add('go'));
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// ── ANIMATED COUNTERS ────────────────────────────────────
+function animateCounter(el, target, suffix, duration = 1800) {
+  const start = performance.now();
+  const isFloat = target % 1 !== 0;
+  const update = (now) => {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const val = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    el.textContent = val + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const nums = entry.target.querySelectorAll('.stat-num');
+      nums.forEach(el => {
+        const text = el.textContent;
+        if (text.includes('★'))       animateCounter(el, 5, '★');
+        else if (text.includes('%'))  animateCounter(el, 100, '%');
+        else if (text.includes('+'))  animateCounter(el, 3, '+');
+      });
+      statObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) statObserver.observe(heroStats);
+
+// ── NAV SCROLL EFFECT ────────────────────────────────────
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 80) {
+    nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+});
+
+// ── SERVICE CARD RIPPLE ───────────────────────────────────
+document.querySelectorAll('.service-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    const rect = card.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.cssText = `
+      position:absolute; width:${size}px; height:${size}px; border-radius:50%;
+      background:rgba(201,168,76,0.25); pointer-events:none;
+      left:${e.clientX - rect.left - size/2}px;
+      top:${e.clientY - rect.top - size/2}px;
+      transform:scale(0); animation:ripple-out 0.6s ease-out forwards;
+    `;
+    card.style.position = 'relative'; card.style.overflow = 'hidden';
+    card.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 700);
+  });
+});
+
+// Add ripple keyframe dynamically
+const style = document.createElement('style');
+style.textContent = '@keyframes ripple-out { to { transform:scale(2.5); opacity:0; } }';
+document.head.appendChild(style);
+
+// ── TESTI CARD TILT ───────────────────────────────────────
+document.querySelectorAll('.testi-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `translateY(-8px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
+    card.style.transition = 'transform 0.1s';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.transition = 'transform 0.4s cubic-bezier(0.22,1,0.36,1)';
+  });
+});
+</script>
 
 </body>
 </html>
